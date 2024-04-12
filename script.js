@@ -9,6 +9,8 @@ document.addEventListener("DOMContentLoaded", function() {
     
     const formElementi = document.querySelector(".form")
 
+    console.log(formElementi) //debugger
+
     function showSuccess(input) {
         const valideynElementi = input.parentElement
         valideynElementi.classList.add("success")
@@ -44,6 +46,9 @@ document.addEventListener("DOMContentLoaded", function() {
     //* template literal (string literal) -> `` eyri dirnaga deyilir !
 
     function checkRequired(inputlar) {
+
+        //* map, filter, find
+
         inputlar.forEach(birInput => {
             if(birInput.value.trim() === "") {
                 showError(birInput, `${getFieldName(birInput)} sahesi bosh buraxila bilmez !`)
@@ -55,13 +60,18 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function getFieldName(textBox) {
-        // console.log() -> debugger
+        //* console.log() -> debugger
+        //* string metodlari
+        //* "Samir".slice(1)
         return textBox.id.charAt(0).toUpperCase() +  textBox.id.slice(1)
     }
 
-    function checkLength(inputlar, min, max) {
-        inputlar.forEach(input)
-            if(input.value.length < min && input.value.length > max) {
+    function checkLength(input, min, max) {
+
+        //* callback
+        //* HOF
+
+            if(input.value.length < min || input.value.length > max) {
                 showError(input, `${getFieldName(input)} sahesi minimum ${min} ve maksimum ${max} simvoldan ibaret olmalidir`)
             }
             else {
@@ -69,18 +79,39 @@ document.addEventListener("DOMContentLoaded", function() {
             }
     }
 
-    checkLength([username, password], 3, 17)
+    // refactor
 
-    // for dovrunu isledir.
+    function comparePassword(p, cP) {
+        if(p.value !== cP) {
+            showError(cP, "Shifreler uygun deyil")
+        }
+    }
 
-    checkRequired([username, email, password, password2])
+    comparePassword(password, password2)
 
 
+    formElementi.addEventListener("submit", function(e) {
+        e.preventDefault() //* Yenilenmenin qabagini alir
 
-    // showError(password, "Shifre minimum 3, maksimum 10 simvoldan ibaret olmalidir")
-    // showError(password2, "Yazdigin shifreler uygun deyil")
 
+        checkRequired([username, email, password, password2])
+        checkLength(username, 3, 10)
+        checkLength(password, 6, 13)
+        checkEmail(email)
+        comparePassword(password, password2)
 
-    // showError(username, "Istifadeci adi yanlishdir")
-    // showError(email, "Email standartlara uygun deyil")
+        //* checkLength([username, password], 3 ,10)
+    })
+
 })
+
+function shifreniGoster() {
+    var passwordSahesi = document.getElementById("password");
+    if (passwordSahesi.type === "password") {
+        passwordSahesi.type = "text";
+    } else {
+        passwordSahesi.type = "password";
+    }
+}
+
+document.querySelector(".fa-eye").addEventListener("click", shifreniGoster)

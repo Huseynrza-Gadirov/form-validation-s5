@@ -100,3 +100,18 @@ h2{
     margin-top:20px;
     width:100%;
 }
+
+
+/** Samirin teklif etdiyi visibility password */
+
+.shifre {
+    position: relative;
+}
+
+.fa-eye {
+    position:absolute;
+    right: 13px;
+    top: 46%;
+    z-index: 9999;
+    /** pointer-events: none; */
+}
